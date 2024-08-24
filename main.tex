@@ -1,0 +1,25 @@
+\documentclass[portrait, 8pt, a4paper, oneside, twocolumn]{extarticle}
+\usepackage{cpunsaac}
+
+\AtBeginDocument{\selectlanguage{spanish}}
+
+\def\universidad{UNSAAC}
+\def\equipo{team1}
+\def\autor{Programación Competitiva UNSAAC}
+
+\teamnote{\universidad}{\equipo}{\autor}
+\HideUsage
+\ShowComplexity
+\HideAuthor
+
+\def\folderTeams{teams}
+\def\folderSource{source}
+\def\notebookFile{notebook.tex}
+
+\newcommand{\code}[1]{\folderTeams/\equipo/\folderSource/#1}
+
+\begin{document}
+    \maketitlepage
+    \input{check.tex}
+    \input{\folderTeams/\equipo/\notebookFile}
+\end{document}
