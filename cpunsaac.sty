@@ -16,8 +16,9 @@
 \usepackage{setspace}
 
 \setstretch{1}
+\setlength{\columnsep}{1cm}
 \setlength{\columnseprule}{0.4pt}
-\setminted{breaklines=true, tabsize=2, breaksymbolleft=}
+\setminted{xleftmargin=\parindent, breaklines=true, tabsize=2, breaksymbolleft=}
 
 \pagenumbering{arabic}
 \usemintedstyle{perldoc}
@@ -35,9 +36,9 @@
     \itemsep=\parsep
 }
 
-\newcommand{\reviewing}{Se debe hacer la \textcolor{green}{\textbf{Revision}}.}
-\newcommand{\testing}{Se debe hacer el \textcolor{orange}{\textbf{Test}}.}
-\newcommand{\progress}{\textcolor{red}{\textbf{En progreso}}}
+\newcommand{\review}{Se debe hacer la \textcolor{green}{\textbf{Revision}}.}
+\newcommand{\test}{Se debe hacer el \textcolor{orange}{\textbf{Test}}.}
+\newcommand{\progress}{Esto esta \textcolor{red}{\textbf{en progreso}}}
 
 \newcommand{\universityname}{Alguna Universidad}
 \newcommand{\teamname}{Algún Equipo}
@@ -82,8 +83,10 @@
 \newcommand{\Algorithm}[6]{
     \subsection{#1}
     \ifthenelse{\equal{#2}{} \OR \boolean{ShowUsage}}{}{\textbf{Uso:} #2 \\}
-    
+
     \ifthenelse{\equal{#3}{} \OR \boolean{ShowComplexity}}{}{\textbf{Complejidad:} #3 \\}
+
     \ifthenelse{\equal{#6}{} \OR \boolean{ShowAuthor}}{}{\textbf{Autor:} #6 \\}
+
     \inputminted[]{#4}{#5}
 }
