@@ -46,12 +46,23 @@
             text-align: center;
             background: #ffffff;
             border-radius: 12px;
-            padding: 30px;
+            padding: 20px;
             box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
             flex: 1;
-            min-width: 280px;
-            max-width: 500px;
+            min-width: 250px;
+            max-width: 400px;
             border: 1px solid #ccc;
+            box-sizing: border-box;
+        }
+
+        .countdown.complete {
+            background: #ffcccc;
+            border-color: #e60000;
+            color: #e60000;
+        }
+
+        .countdown.complete .description {
+            font-weight: 700;
         }
 
         .countdown h2 {
@@ -65,7 +76,7 @@
             display: flex;
             flex-wrap: wrap;
             justify-content: center;
-            gap: 15px;
+            gap: 10px;
             margin-top: 20px;
         }
 
@@ -73,29 +84,20 @@
             display: flex;
             flex-direction: column;
             align-items: center;
-            padding: 15px;
+            padding: 10px;
             background: #f9f9f9;
             color: #333;
             border-radius: 8px;
-            min-width: 100px;
-            max-width: 140px;
-            border: 1px solid #ddd;
-        }
-
-        .countdown .unit.small {
             min-width: 80px;
             max-width: 120px;
-            padding: 10px;
+            border: 1px solid #ddd;
+            box-sizing: border-box;
         }
 
         .countdown .unit span {
-            font-size: 2.5em;
+            font-size: 2em;
             font-weight: 700;
             color: #333;
-        }
-
-        .countdown .unit.small span {
-            font-size: 2em;
         }
 
         .countdown .label {
@@ -117,9 +119,9 @@
             }
 
             .countdown {
-                padding: 20px;
-                min-width: 250px;
-                max-width: 400px;
+                padding: 15px;
+                min-width: 200px;
+                max-width: 300px;
             }
 
             .countdown h2 {
@@ -127,11 +129,11 @@
             }
 
             .countdown .timer {
-                gap: 10px;
+                gap: 5px;
             }
 
             .countdown .unit {
-                min-width: 80px;
+                min-width: 70px;
                 max-width: 100px;
                 padding: 8px;
             }
@@ -152,12 +154,14 @@
 
             .header h1 {
                 font-size: 1.2em;
+                margin: 0px;
+                padding: 0px;
             }
 
             .countdown {
-                padding: 15px;
-                min-width: 200px;
-                max-width: 350px;
+                padding: 5px;
+                min-width: 180px;
+                max-width: 280px;
             }
 
             .countdown h2 {
@@ -165,14 +169,14 @@
             }
 
             .countdown .timer {
-                flex-direction: column;
-                gap: 5px;
+                flex-direction: row;
+                gap: 10px;
             }
 
             .countdown .unit {
                 min-width: 60px;
                 max-width: 80px;
-                padding: 5px;
+                padding: 2px;
             }
 
             .countdown .unit span {
@@ -193,10 +197,9 @@
 
     <div class="countdowns-container">
         <div class="countdown" role="timer" aria-live="polite">
-            <h2>ACM-ICPC Regional 2024</h2>
+            <h2>ICPC Regional 2024</h2>
             <h3 class="description" id="description1"></h3>
             <div class="timer" id="timer1">
-                <div class="unit"><span id="years1">0</span><div class="label">Años</div></div>
                 <div class="unit"><span id="months1">0</span><div class="label">Meses</div></div>
                 <div class="unit"><span id="days1">0</span><div class="label">Días</div></div>
                 <div class="unit small"><span id="hours1">0</span><div class="label">Horas</div></div>
@@ -209,12 +212,23 @@
             <h2>IEEExtreme 2024</h2>
             <h3 class="description" id="description2"></h3>
             <div class="timer" id="timer2">
-                <div class="unit"><span id="years2">0</span><div class="label">Años</div></div>
                 <div class="unit"><span id="months2">0</span><div class="label">Meses</div></div>
                 <div class="unit"><span id="days2">0</span><div class="label">Días</div></div>
                 <div class="unit small"><span id="hours2">0</span><div class="label">Horas</div></div>
                 <div class="unit small"><span id="minutes2">0</span><div class="label">Min</div></div>
                 <div class="unit small"><span id="seconds2">0</span><div class="label">Seg</div></div>
+            </div>
+        </div>
+
+        <div class="countdown" id="countdown3" role="timer" aria-live="polite">
+            <h2>Selectiva UNSAAC 2024</h2>
+            <h3 class="description" id="description3"></h3>
+            <div class="timer" id="timer3">
+                <div class="unit"><span id="months3">0</span><div class="label">Meses</div></div>
+                <div class="unit"><span id="days3">0</span><div class="label">Días</div></div>
+                <div class="unit small"><span id="hours3">0</span><div class="label">Horas</div></div>
+                <div class="unit small"><span id="minutes3">0</span><div class="label">Min</div></div>
+                <div class="unit small"><span id="seconds3">0</span><div class="label">Seg</div></div>
             </div>
         </div>
     </div>
@@ -232,19 +246,19 @@
             return `${dayOfWeek}, ${day} de ${month} de ${year}`;
         }
 
-        function updateCountdown(targetDateId, descriptionId, yearId, monthId, dayId, hourId, minuteId, secondId) {
+        function updateCountdown(targetDateId, descriptionId, monthId, dayId, hourId, minuteId, secondId, countdownId) {
             const targetDate = new Date(targetDateId);
             const now = new Date();
             const timeDiff = targetDate - now;
 
             if (timeDiff <= 0) {
-                document.getElementById(yearId).textContent = 0;
                 document.getElementById(monthId).textContent = 0;
                 document.getElementById(dayId).textContent = 0;
                 document.getElementById(hourId).textContent = 0;
                 document.getElementById(minuteId).textContent = 0;
                 document.getElementById(secondId).textContent = 0;
                 document.getElementById(descriptionId).textContent = "¡El evento ha comenzado!";
+                document.getElementById(countdownId).classList.add('complete');
                 return;
             }
 
@@ -255,8 +269,7 @@
             const minutes = Math.floor((timeDiff % (1000 * 60 * 60)) / (1000 * 60));
             const seconds = Math.floor((timeDiff % (1000 * 60)) / 1000);
 
-            document.getElementById(yearId).textContent = years;
-            document.getElementById(monthId).textContent = months;
+            document.getElementById(monthId).textContent = months + 12 * years;
             document.getElementById(dayId).textContent = days;
             document.getElementById(hourId).textContent = hours;
             document.getElementById(minuteId).textContent = minutes;
@@ -265,13 +278,14 @@
             document.getElementById(descriptionId).textContent = formatDateInSpanish(targetDate);
         }
 
-        function startCountdown(targetDate, descriptionId, yearId, monthId, dayId, hourId, minuteId, secondId) {
-            updateCountdown(targetDate, descriptionId, yearId, monthId, dayId, hourId, minuteId, secondId);
-            setInterval(() => updateCountdown(targetDate, descriptionId, yearId, monthId, dayId, hourId, minuteId, secondId), 1000);
+        function startCountdown(targetDate, descriptionId, monthId, dayId, hourId, minuteId, secondId, countdownId) {
+            updateCountdown(targetDate, descriptionId, monthId, dayId, hourId, minuteId, secondId, countdownId);
+            setInterval(() => updateCountdown(targetDate, descriptionId, monthId, dayId, hourId, minuteId, secondId, countdownId), 1000);
         }
 
-        startCountdown("2024-11-09T00:00:00Z", 'description1', 'years1', 'months1', 'days1', 'hours1', 'minutes1', 'seconds1');
-        startCountdown("2024-10-26T00:00:00Z", 'description2', 'years2', 'months2', 'days2', 'hours2', 'minutes2', 'seconds2');
+        startCountdown("2024-11-09T00:00:00Z", 'description1', 'months1', 'days1', 'hours1', 'minutes1', 'seconds1', 'countdown1');
+        startCountdown("2024-10-26T00:00:00Z", 'description2', 'months2', 'days2', 'hours2', 'minutes2', 'seconds2', 'countdown2');
+        startCountdown("2024-09-28T00:00:00Z", 'description3', 'months3', 'days3', 'hours3', 'minutes3', 'seconds3', 'countdown3');
     </script>
 </body>
 </html>
