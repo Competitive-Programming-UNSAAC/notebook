@@ -32,7 +32,7 @@
         .header h1 {
             font-size: 2.5em;
             color: #333;
-            margin: 15px 0;
+            margin: 2px 0;
             text-shadow: 1px 1px 2px rgba(0,0,0,0.1);
         }
 
@@ -53,11 +53,25 @@
             transition: all 0.3s ease;
         }
 
-        .countdown h2 {
-            margin-top: 0;
-            color: #1E90FF;
-            font-size: 1.8em;
+        .event-header {
+            display: flex;
+            align-items: center;
+            justify-content: center;
             margin-bottom: 20px;
+        }
+
+        .event-logo {
+            width: 60px;
+            height: 60px;
+            margin-right: 15px;
+            border-radius: 8px;
+            object-fit: contain;
+        }
+
+        .countdown h2 {
+            margin: 0;
+            color: #1E90FF;
+            font-size: 1.6em;
         }
 
         .description {
@@ -91,11 +105,11 @@
         }
 
         .unit-large {
-            width: 80px;
+            width: 70px;
         }
 
         .unit-small {
-            width: 60px;
+            width: 55px;
         }
 
         .unit span {
@@ -104,11 +118,11 @@
         }
 
         .unit-large span {
-            font-size: 1.8em;
+            font-size: 1.6em;
         }
 
         .unit-small span {
-            font-size: 1.4em;
+            font-size: 1.3em;
         }
 
         .label {
@@ -142,13 +156,16 @@
 </head>
 <body>
     <div class="header">
-        <img src="logo.png" alt="Logo de la Comunidad">
+        <img src="images/logo.png" alt="Logo de la Comunidad">
         <h1>Cronograma de Eventos</h1>
     </div>
 
     <div class="countdowns-container">
         <div class="countdown" id="countdown1">
-            <h2>Hacker Cup 2024</h2>
+            <div class="event-header">
+                <img src="images/hacker.png" alt="Logo Hacker Cup" class="event-logo">
+                <h2>Hacker Cup 2024</h2>
+            </div>
             <h3 class="description" id="description1"></h3>
             <div class="timer">
                 <div class="timer-row">
@@ -164,7 +181,10 @@
         </div>
 
         <div class="countdown" id="countdown2">
-            <h2>Selectiva UNSAAC 2024</h2>
+            <div class="event-header">
+                <img src="images/selectiva.png" alt="Logo Selectiva UNSAAC" class="event-logo">
+                <h2>Selectiva UNSAAC 2024</h2>
+            </div>
             <h3 class="description" id="description2"></h3>
             <div class="timer">
                 <div class="timer-row">
@@ -180,7 +200,10 @@
         </div>
 
         <div class="countdown" id="countdown3">
-            <h2>IEEExtreme 2024</h2>
+            <div class="event-header">
+                <img src="images/ieeextreme.png" alt="Logo IEEExtreme" class="event-logo">
+                <h2>IEEExtreme 2024</h2>
+            </div>
             <h3 class="description" id="description3"></h3>
             <div class="timer">
                 <div class="timer-row">
@@ -196,7 +219,10 @@
         </div>
 
         <div class="countdown" id="countdown4">
-            <h2>ICPC Regional 2024</h2>
+            <div class="event-header">
+                <img src="images/icpc.png" alt="Logo ICPC Regional" class="event-logo">
+                <h2>ICPC Regional 2024</h2>
+            </div>
             <h3 class="description" id="description4"></h3>
             <div class="timer">
                 <div class="timer-row">
@@ -228,7 +254,7 @@
         function updateCountdown(targetDateId, descriptionId, monthId, dayId, hourId, minuteId, secondId, eventDate) {
             const countdownDate = new Date(eventDate).getTime();
             const descriptionElement = document.getElementById(descriptionId);
-            descriptionElement.textContent = formatDateInSpanish(new Date(eventDate));
+            descriptionElement.textContent = "Inicia el " + formatDateInSpanish(new Date(eventDate));
 
             function update() {
                 const now = new Date().getTime();
