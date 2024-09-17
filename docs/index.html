@@ -132,12 +132,53 @@
 
     <script>
         const events = [
-            { id: 1, name: "Hacker Cup 2024 Practice Round", logo: "hacker.png", startDate: '2024-09-20T12:00:00-05:00', endDate: '2024-09-23T14:00:00-05:00' },
-            { id: 2, name: "Selectiva UNSAAC 2024", logo: "selectiva.png", startDate: '2024-09-28T09:00:00-05:00', endDate: '2024-09-28T14:00:00-05:00' },
-            { id: 3, name: "Mini IEEExtreme 2024", logo: "ieeextreme.png", startDate: '2024-10-26T00:00:00-05:00', endDate: '2024-10-27T00:00:00-05:00' },
-            { id: 4, name: "ICPC Regional 2024", logo: "icpc.png", startDate: '2024-11-09T09:00:00-05:00', endDate: '2024-11-09T14:00:00-05:00' },
-            { id: 5, name: "Summer School Brazil 2025", logo: "summer.png", startDate: '2025-01-20T11:00:00-05:00', endDate: '2025-02-01T00:00:00-05:00' },
-            { id: 6, name: "ICPC Championship 2025", logo: "icpc.png", startDate: '2025-03-12T00:00:00-05:00', endDate: '2025-03-18T00:00:00-05:00' }
+            {
+                id: 1,
+                name: "Hacker Cup 2024 Practice Round",
+                url: "https://www.facebook.com/codingcompetitions/hacker-cup",
+                logo: "hacker.png",
+                startDate: '2024-09-20T12:00:00-05:00',
+                endDate: '2024-09-23T14:00:00-05:00'
+            },
+            {
+                id: 2,
+                name: "Selectiva UNSAAC 2024",
+                url: "https://www.facebook.com/ACMUNSAAC",
+                logo: "selectiva.png",
+                startDate: '2024-09-28T09:00:00-05:00',
+                endDate: '2024-09-28T14:00:00-05:00'
+            },
+            {
+                id: 3,
+                name: "Mini IEEExtreme 2024",
+                url: "https://ieeextreme.org/",
+                logo: "ieeextreme.png",
+                startDate: '2024-10-26T00:00:00-05:00',
+                endDate: '2024-10-27T00:00:00-05:00'
+            },
+            {
+                id: 4,
+                name: "ICPC Regional 2024",
+                url: "https://icpc.global/regionals/finder/SouthAmerica-South",
+                logo: "icpc.png", startDate: '2024-11-09T09:00:00-05:00',
+                endDate: '2024-11-09T14:00:00-05:00'
+            },
+            {
+                id: 5,
+                name: "Summer School Brazil 2025",
+                url: "https://maratona.ic.unicamp.br",
+                logo: "summer.png",
+                startDate: '2025-01-20T11:00:00-05:00',
+                endDate: '2025-02-01T00:00:00-05:00'
+            },
+            {
+                id: 6,
+                name: "ICPC Championship 2025",
+                url: "https://icpc.global/regionals/finder/Latin-America-Champ",
+                logo: "icpc.png",
+                startDate: '2025-03-17T11:00:00-05:00',
+                endDate: '2025-03-17T17:00:00-05:00'
+            }
         ];
 
         const spanishDays = ['Domingo', 'Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes', 'Sábado'];
@@ -154,7 +195,9 @@
             countdownElement.id = `countdown${event.id}`;
             countdownElement.innerHTML = `
                 <div class="event-header">
-                    <img src="images/${event.logo}" alt="Logo ${event.name}" class="event-logo">
+                    <a href=${event.url}>
+                        <img src="images/${event.logo}" alt="Logo ${event.name}" class="event-logo">
+                    </a>
                     <h2>${event.name}</h2>
                 </div>
                 <h3 class="description">${formatDateInSpanish(event.startDate)}</h3>
