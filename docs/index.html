@@ -219,6 +219,12 @@
             const descriptionElement = document.getElementById(`description${event.id}`);
             descriptionElement.textContent = formatDateInSpanish(new Date(event.date));
 
+            const monthsElement = document.getElementById(`months${event.id}`).parentNode;
+            const daysElement = document.getElementById(`days${event.id}`).parentNode;
+            const hoursElement = document.getElementById(`hours${event.id}`).parentNode;
+            const minutesElement = document.getElementById(`minutes${event.id}`).parentNode;
+            const secondsElement = document.getElementById(`seconds${event.id}`).parentNode;
+
             function update() {
                 const now = new Date().getTime();
                 const distance = countdownDate - now;
@@ -227,6 +233,8 @@
                     const countdownElement = document.getElementById(`countdown${event.id}`);
                     countdownElement.classList.add('complete');
                     descriptionElement.textContent = "¡El evento ha comenzado!";
+                    minutesElement.style.display = 'none';
+                    secondsElement.style.display = 'none';
                     return;
                 }
 
@@ -235,6 +243,20 @@
                 const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
                 const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
                 const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+                if (distance <= 60 * 60 * 1000) {
+                    monthsElement.style.display = 'none';
+                    daysElement.style.display = 'none';
+                    hoursElement.style.display = 'none';
+                    minutesElement.style.display = 'flex';
+                    secondsElement.style.display = 'flex';
+                } else {
+                    monthsElement.style.display = 'flex';
+                    daysElement.style.display = 'flex';
+                    hoursElement.style.display = 'flex';
+                    minutesElement.style.display = 'flex';
+                    secondsElement.style.display = 'none';
+                }
 
                 document.getElementById(`months${event.id}`).textContent = months;
                 document.getElementById(`days${event.id}`).textContent = days;
