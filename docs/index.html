@@ -38,7 +38,7 @@
 
         .countdowns-container {
             display: grid;
-            grid-template-columns: repeat(2, 1fr);
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
             gap: 30px;
             max-width: 1200px;
             width: 100%;
@@ -160,85 +160,48 @@
         <h1>Cronograma de Eventos</h1>
     </div>
 
-    <div class="countdowns-container">
-        <div class="countdown" id="countdown1">
-            <div class="event-header">
-                <img src="images/hacker.png" alt="Logo Hacker Cup" class="event-logo">
-                <h2>Hacker Cup 2024</h2>
-            </div>
-            <h3 class="description" id="description1"></h3>
-            <div class="timer">
-                <div class="timer-row">
-                    <div class="unit unit-large"><span id="months1">0</span><div class="label">Meses</div></div>
-                    <div class="unit unit-large"><span id="days1">0</span><div class="label">Días</div></div>
-                    <div class="unit unit-large"><span id="hours1">0</span><div class="label">Horas</div></div>
-                </div>
-                <div class="timer-row">
-                    <div class="unit unit-small"><span id="minutes1">0</span><div class="label">Min</div></div>
-                    <div class="unit unit-small"><span id="seconds1">0</span><div class="label">Seg</div></div>
-                </div>
-            </div>
-        </div>
-
-        <div class="countdown" id="countdown2">
-            <div class="event-header">
-                <img src="images/selectiva.png" alt="Logo Selectiva UNSAAC" class="event-logo">
-                <h2>Selectiva UNSAAC 2024</h2>
-            </div>
-            <h3 class="description" id="description2"></h3>
-            <div class="timer">
-                <div class="timer-row">
-                    <div class="unit unit-large"><span id="months2">0</span><div class="label">Meses</div></div>
-                    <div class="unit unit-large"><span id="days2">0</span><div class="label">Días</div></div>
-                    <div class="unit unit-large"><span id="hours2">0</span><div class="label">Horas</div></div>
-                </div>
-                <div class="timer-row">
-                    <div class="unit unit-small"><span id="minutes2">0</span><div class="label">Min</div></div>
-                    <div class="unit unit-small"><span id="seconds2">0</span><div class="label">Seg</div></div>
-                </div>
-            </div>
-        </div>
-
-        <div class="countdown" id="countdown3">
-            <div class="event-header">
-                <img src="images/ieeextreme.png" alt="Logo IEEExtreme" class="event-logo">
-                <h2>IEEExtreme 2024</h2>
-            </div>
-            <h3 class="description" id="description3"></h3>
-            <div class="timer">
-                <div class="timer-row">
-                    <div class="unit unit-large"><span id="months3">0</span><div class="label">Meses</div></div>
-                    <div class="unit unit-large"><span id="days3">0</span><div class="label">Días</div></div>
-                    <div class="unit unit-large"><span id="hours3">0</span><div class="label">Horas</div></div>
-                </div>
-                <div class="timer-row">
-                    <div class="unit unit-small"><span id="minutes3">0</span><div class="label">Min</div></div>
-                    <div class="unit unit-small"><span id="seconds3">0</span><div class="label">Seg</div></div>
-                </div>
-            </div>
-        </div>
-
-        <div class="countdown" id="countdown4">
-            <div class="event-header">
-                <img src="images/icpc.png" alt="Logo ICPC Regional" class="event-logo">
-                <h2>ICPC Regional 2024</h2>
-            </div>
-            <h3 class="description" id="description4"></h3>
-            <div class="timer">
-                <div class="timer-row">
-                    <div class="unit unit-large"><span id="months4">0</span><div class="label">Meses</div></div>
-                    <div class="unit unit-large"><span id="days4">0</span><div class="label">Días</div></div>
-                    <div class="unit unit-large"><span id="hours4">0</span><div class="label">Horas</div></div>
-                </div>
-                <div class="timer-row">
-                    <div class="unit unit-small"><span id="minutes4">0</span><div class="label">Min</div></div>
-                    <div class="unit unit-small"><span id="seconds4">0</span><div class="label">Seg</div></div>
-                </div>
-            </div>
-        </div>
+    <div id="countdowns-container" class="countdowns-container">
+        <!-- Countdown elements will be dynamically inserted here -->
     </div>
 
     <script>
+        const events = [
+            { id: 1, name: "Hacker Cup 2024 Practice Round", logo: "hacker.png", date: '2024-09-20T12:00:00-05:00' },
+            { id: 2, name: "Selectiva UNSAAC 2024", logo: "selectiva.png", date: '2024-09-28T09:00:00-05:00' },
+            { id: 3, name: "Mini EEExtreme 2024", logo: "ieeextreme.png", date: '2024-10-26T00:00:00-05:00' },
+            { id: 4, name: "ICPC Regional 2024", logo: "icpc.png", date: '2024-11-09T09:00:00-05:00' },
+            { id: 5, name: "Summer School Brazil 2025", logo: "summer.png", date: '2025-01-20T11:00:00-05:00' },
+            { id: 6, name: "ICPC Championship 2025", logo: "icpc.png", date: '2025-03-12T11:00:00-05:00' }
+            // Add more events here as needed
+        ];
+
+        function createCountdownElement(event) {
+            const countdownElement = document.createElement('div');
+            countdownElement.className = 'countdown';
+            countdownElement.id = `countdown${event.id}`;
+
+            countdownElement.innerHTML = `
+                <div class="event-header">
+                    <img src="images/${event.logo}" alt="Logo ${event.name}" class="event-logo">
+                    <h2>${event.name}</h2>
+                </div>
+                <h3 class="description" id="description${event.id}"></h3>
+                <div class="timer">
+                    <div class="timer-row">
+                        <div class="unit unit-large"><span id="months${event.id}">0</span><div class="label">Meses</div></div>
+                        <div class="unit unit-large"><span id="days${event.id}">0</span><div class="label">Días</div></div>
+                        <div class="unit unit-large"><span id="hours${event.id}">0</span><div class="label">Horas</div></div>
+                    </div>
+                    <div class="timer-row">
+                        <div class="unit unit-small"><span id="minutes${event.id}">0</span><div class="label">Min</div></div>
+                        <div class="unit unit-small"><span id="seconds${event.id}">0</span><div class="label">Seg</div></div>
+                    </div>
+                </div>
+            `;
+
+            return countdownElement;
+        }
+
         function formatDateInSpanish(date) {
             const days = ['Domingo', 'Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes', 'Sábado'];
             const months = ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'];
@@ -251,17 +214,17 @@
             return `${dayOfWeek}, ${day} de ${month} de ${year}`;
         }
 
-        function updateCountdown(targetDateId, descriptionId, monthId, dayId, hourId, minuteId, secondId, eventDate) {
-            const countdownDate = new Date(eventDate).getTime();
-            const descriptionElement = document.getElementById(descriptionId);
-            descriptionElement.textContent = "Inicia el " + formatDateInSpanish(new Date(eventDate));
+        function updateCountdown(event) {
+            const countdownDate = new Date(event.date).getTime();
+            const descriptionElement = document.getElementById(`description${event.id}`);
+            descriptionElement.textContent = formatDateInSpanish(new Date(event.date));
 
             function update() {
                 const now = new Date().getTime();
                 const distance = countdownDate - now;
 
                 if (distance <= 0) {
-                    const countdownElement = document.getElementById(targetDateId);
+                    const countdownElement = document.getElementById(`countdown${event.id}`);
                     countdownElement.classList.add('complete');
                     descriptionElement.textContent = "¡El evento ha comenzado!";
                     return;
@@ -273,11 +236,11 @@
                 const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
                 const seconds = Math.floor((distance % (1000 * 60)) / 1000);
 
-                document.getElementById(monthId).textContent = months;
-                document.getElementById(dayId).textContent = days;
-                document.getElementById(hourId).textContent = hours;
-                document.getElementById(minuteId).textContent = minutes;
-                document.getElementById(secondId).textContent = seconds;
+                document.getElementById(`months${event.id}`).textContent = months;
+                document.getElementById(`days${event.id}`).textContent = days;
+                document.getElementById(`hours${event.id}`).textContent = hours;
+                document.getElementById(`minutes${event.id}`).textContent = minutes;
+                document.getElementById(`seconds${event.id}`).textContent = seconds;
 
                 setTimeout(update, 1000);
             }
@@ -285,10 +248,12 @@
             update();
         }
 
-        updateCountdown('countdown1', 'description1', 'months1', 'days1', 'hours1', 'minutes1', 'seconds1', '2024-09-20T12:00:00-05:00');
-        updateCountdown('countdown2', 'description2', 'months2', 'days2', 'hours2', 'minutes2', 'seconds2', '2024-09-28T09:00:00-05:00');
-        updateCountdown('countdown3', 'description3', 'months3', 'days3', 'hours3', 'minutes3', 'seconds3', '2024-10-26T00:00:00-05:00');
-        updateCountdown('countdown4', 'description4', 'months4', 'days4', 'hours4', 'minutes4', 'seconds4', '2024-11-09T09:00:00-05:00');
+        const container = document.getElementById('countdowns-container');
+        events.forEach(event => {
+            const countdownElement = createCountdownElement(event);
+            container.appendChild(countdownElement);
+            updateCountdown(event);
+        });
     </script>
 </body>
 </html>
