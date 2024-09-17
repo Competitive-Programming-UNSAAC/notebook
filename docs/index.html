@@ -6,7 +6,7 @@
     <title>Cronograma de Eventos</title>
     <style>
         body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            font-family: 'Segoe UI', Tahoma, Geneva, sans-serif;
             display: flex;
             flex-direction: column;
             justify-content: center;
@@ -18,24 +18,20 @@
             padding: 20px;
             box-sizing: border-box;
         }
-
         .header {
             text-align: center;
             margin-bottom: 30px;
         }
-
         .header img {
             max-width: 200px;
             height: auto;
         }
-
         .header h1 {
             font-size: 2.5em;
             color: #333;
             margin: 2px 0;
             text-shadow: 1px 1px 2px rgba(0,0,0,0.1);
         }
-
         .countdowns-container {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
@@ -43,7 +39,6 @@
             max-width: 1200px;
             width: 100%;
         }
-
         .countdown {
             background-color: rgba(255, 255, 255, 0.9);
             border-radius: 15px;
@@ -52,14 +47,12 @@
             box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
             transition: all 0.3s ease;
         }
-
         .event-header {
             display: flex;
             align-items: center;
             justify-content: center;
             margin-bottom: 20px;
         }
-
         .event-logo {
             width: 60px;
             height: 60px;
@@ -67,32 +60,22 @@
             border-radius: 8px;
             object-fit: contain;
         }
-
         .countdown h2 {
             margin: 0;
             color: #1E90FF;
             font-size: 1.6em;
         }
-
         .description {
             font-size: 1em;
             color: #555;
             margin-bottom: 20px;
         }
-
         .timer {
             display: flex;
-            flex-direction: column;
-            align-items: center;
-        }
-
-        .timer-row {
-            display: flex;
             justify-content: center;
+            flex-wrap: wrap;
             gap: 10px;
-            margin-bottom: 10px;
         }
-
         .unit {
             display: flex;
             flex-direction: column;
@@ -104,35 +87,28 @@
             box-shadow: 0 2px 5px rgba(0,0,0,0.1);
             width: 70px;
         }
-
         .unit span {
             font-weight: bold;
             color: #333;
             font-size: 1.6em;
         }
-
         .label {
             font-size: 0.8em;
             text-transform: uppercase;
             margin-top: 5px;
             color: #666;
         }
-
         .complete {
             background-color: #FFEBEE;
             border: 2px solid #D32F2F;
         }
-
-        .complete h2 {
+        .complete h2, .complete .description {
             color: #D32F2F;
         }
-
         .complete .description {
             font-size: 1.2em;
-            color: #D32F2F;
             font-weight: bold;
         }
-
         @media (max-width: 768px) {
             .countdowns-container {
                 grid-template-columns: 1fr;
@@ -145,121 +121,79 @@
         <img src="images/logo.png" alt="Logo de la Comunidad">
         <h1>Cronograma de Eventos</h1>
     </div>
-
-    <div id="countdowns-container" class="countdowns-container">
-        <!-- Countdown elements will be dynamically inserted here -->
-    </div>
+    <div id="countdowns-container" class="countdowns-container"></div>
 
     <script>
         const events = [
-            { id: 1, name: "Hacker Cup 2024 Practice Round", logo: "hacker.png", date: '2024-09-16T21:45:00-05:00' },
+            { id: 1, name: "Hacker Cup 2024 Practice Round", logo: "hacker.png", date: '2024-09-20T12:00:00-05:00' },
             { id: 2, name: "Selectiva UNSAAC 2024", logo: "selectiva.png", date: '2024-09-28T09:00:00-05:00' },
             { id: 3, name: "Mini EEExtreme 2024", logo: "ieeextreme.png", date: '2024-10-26T00:00:00-05:00' },
             { id: 4, name: "ICPC Regional 2024", logo: "icpc.png", date: '2024-11-09T09:00:00-05:00' },
             { id: 5, name: "Summer School Brazil 2025", logo: "summer.png", date: '2025-01-20T11:00:00-05:00' },
             { id: 6, name: "ICPC Championship 2025", logo: "icpc.png", date: '2025-03-12T11:00:00-05:00' }
-            // Add more events here as needed
         ];
+
+        const spanishDays = ['Domingo', 'Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes', 'Sábado'];
+        const spanishMonths = ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'];
+
+        function formatDateInSpanish(date) {
+            return `${spanishDays[date.getUTCDay()]}, ${date.getUTCDate()} de ${spanishMonths[date.getUTCMonth()]} de ${date.getUTCFullYear()}`;
+        }
 
         function createCountdownElement(event) {
             const countdownElement = document.createElement('div');
             countdownElement.className = 'countdown';
             countdownElement.id = `countdown${event.id}`;
-
             countdownElement.innerHTML = `
                 <div class="event-header">
                     <img src="images/${event.logo}" alt="Logo ${event.name}" class="event-logo">
                     <h2>${event.name}</h2>
                 </div>
-                <h3 class="description" id="description${event.id}"></h3>
+                <h3 class="description">${formatDateInSpanish(new Date(event.date))}</h3>
                 <div class="timer">
-                    <div class="timer-row" id="mainRow${event.id}">
-                        <div class="unit"><span id="days${event.id}">0</span><div class="label">Días</div></div>
-                        <div class="unit"><span id="hours${event.id}">0</span><div class="label">Horas</div></div>
-                        <div class="unit"><span id="minutes${event.id}">0</span><div class="label">Min</div></div>
-                    </div>
-                    <div class="timer-row" id="secondsRow${event.id}" style="display: none;">
-                        <div class="unit"><span id="seconds${event.id}">0</span><div class="label">Seg</div></div>
-                    </div>
+                    <div class="unit"><span id="days${event.id}">0</span><div class="label">Días</div></div>
+                    <div class="unit"><span id="hours${event.id}">0</span><div class="label">Horas</div></div>
+                    <div class="unit"><span id="minutes${event.id}">0</span><div class="label">Min</div></div>
+                    <div class="unit"><span id="seconds${event.id}">0</span><div class="label">Seg</div></div>
                 </div>
             `;
-
             return countdownElement;
         }
 
-        function formatDateInSpanish(date) {
-            const days = ['Domingo', 'Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes', 'Sábado'];
-            const months = ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'];
-            
-            const dayOfWeek = days[date.getUTCDay()];
-            const day = date.getUTCDate();
-            const month = months[date.getUTCMonth()];
-            const year = date.getUTCFullYear();
-            
-            return `${dayOfWeek}, ${day} de ${month} de ${year}`;
-        }
-
-        function updateCountdown(event) {
+        function updateCountdown(event, elements) {
             const countdownDate = new Date(event.date).getTime();
-            const descriptionElement = document.getElementById(`description${event.id}`);
-            descriptionElement.textContent = formatDateInSpanish(new Date(event.date));
-
-            const mainRowElement = document.getElementById(`mainRow${event.id}`);
-            const secondsRowElement = document.getElementById(`secondsRow${event.id}`);
-            const daysElement = document.getElementById(`days${event.id}`).parentNode;
-            const hoursElement = document.getElementById(`hours${event.id}`).parentNode;
-            const minutesElement = document.getElementById(`minutes${event.id}`).parentNode;
-            const secondsElement = document.getElementById(`seconds${event.id}`).parentNode;
-
             let eventStarted = false;
 
             function update() {
                 const now = new Date().getTime();
                 const distance = countdownDate - now;
+                const isLastHour = distance > 0 && distance <= 60 * 60 * 1000;
 
-                const days = Math.floor(Math.abs(distance) / (1000 * 60 * 60 * 24));
-                const hours = Math.floor((Math.abs(distance) % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-                const minutes = Math.floor((Math.abs(distance) % (1000 * 60 * 60)) / (1000 * 60));
-                const seconds = Math.floor((Math.abs(distance) % (1000 * 60)) / 1000);
+                if (distance <= 0 && !eventStarted) {
+                    elements.countdown.classList.add('complete');
+                    elements.description.textContent = "¡El evento ha comenzado!";
+                    eventStarted = true;
+                }
 
-                if (distance <= 0) {
-                    if (!eventStarted) {
-                        const countdownElement = document.getElementById(`countdown${event.id}`);
-                        countdownElement.classList.add('complete');
-                        descriptionElement.textContent = "¡El evento ha comenzado!";
-                        eventStarted = true;
+                const timeUnits = [
+                    { value: Math.floor(Math.abs(distance) / (1000 * 60 * 60 * 24)), element: elements.days },
+                    { value: Math.floor((Math.abs(distance) % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60)), element: elements.hours },
+                    { value: Math.floor((Math.abs(distance) % (1000 * 60 * 60)) / (1000 * 60)), element: elements.minutes },
+                    { value: Math.floor((Math.abs(distance) % (1000 * 60)) / 1000), element: elements.seconds }
+                ];
+
+                timeUnits.forEach(({ value, element }, index) => {
+                    element.textContent = value;
+                    if (isLastHour) {
+                        element.parentNode.style.display = index >= 2 ? 'flex' : 'none';
+                    } else if (distance <= 0) {
+                        element.parentNode.style.display = index < 3 ? 'flex' : 'none';
+                    } else {
+                        element.parentNode.style.display = index < 3 ? 'flex' : 'none';
                     }
-                    mainRowElement.style.display = 'flex';
-                    secondsRowElement.style.display = 'none';
-                    daysElement.style.display = 'flex';
-                    hoursElement.style.display = 'flex';
-                    minutesElement.style.display = 'flex';
-                    secondsElement.style.display = 'none';
-                } else if (distance <= 60 * 60 * 1000) {
-                    mainRowElement.style.display = 'flex';
-                    secondsRowElement.style.display = 'none';
-                    daysElement.style.display = 'none';
-                    hoursElement.style.display = 'none';
-                    minutesElement.style.display = 'flex';
-                    secondsElement.style.display = 'flex';
-                    mainRowElement.appendChild(secondsElement);
-                } else {
-                    mainRowElement.style.display = 'flex';
-                    secondsRowElement.style.display = 'none';
-                    daysElement.style.display = 'flex';
-                    hoursElement.style.display = 'flex';
-                    minutesElement.style.display = 'flex';
-                    secondsElement.style.display = 'none';
-                }
+                });
 
-                document.getElementById(`days${event.id}`).textContent = days;
-                document.getElementById(`hours${event.id}`).textContent = hours;
-                document.getElementById(`minutes${event.id}`).textContent = minutes;
-                if (distance > 0) {
-                    document.getElementById(`seconds${event.id}`).textContent = seconds;
-                }
-
-                setTimeout(update, 1000);
+                requestAnimationFrame(update);
             }
 
             update();
@@ -269,7 +203,15 @@
         events.forEach(event => {
             const countdownElement = createCountdownElement(event);
             container.appendChild(countdownElement);
-            updateCountdown(event);
+            const elements = {
+                countdown: countdownElement,
+                description: countdownElement.querySelector('.description'),
+                days: document.getElementById(`days${event.id}`),
+                hours: document.getElementById(`hours${event.id}`),
+                minutes: document.getElementById(`minutes${event.id}`),
+                seconds: document.getElementById(`seconds${event.id}`)
+            };
+            updateCountdown(event, elements);
         });
     </script>
 </body>
