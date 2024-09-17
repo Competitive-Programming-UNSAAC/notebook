@@ -102,27 +102,13 @@
             border-radius: 8px;
             padding: 10px;
             box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-        }
-
-        .unit-large {
             width: 70px;
-        }
-
-        .unit-small {
-            width: 55px;
         }
 
         .unit span {
             font-weight: bold;
             color: #333;
-        }
-
-        .unit-large span {
             font-size: 1.6em;
-        }
-
-        .unit-small span {
-            font-size: 1.3em;
         }
 
         .label {
@@ -166,7 +152,7 @@
 
     <script>
         const events = [
-            { id: 1, name: "Hacker Cup 2024 Practice Round", logo: "hacker.png", date: '2024-09-20T12:00:00-05:00' },
+            { id: 1, name: "Hacker Cup 2024 Practice Round", logo: "hacker.png", date: '2024-09-16T21:45:00-05:00' },
             { id: 2, name: "Selectiva UNSAAC 2024", logo: "selectiva.png", date: '2024-09-28T09:00:00-05:00' },
             { id: 3, name: "Mini EEExtreme 2024", logo: "ieeextreme.png", date: '2024-10-26T00:00:00-05:00' },
             { id: 4, name: "ICPC Regional 2024", logo: "icpc.png", date: '2024-11-09T09:00:00-05:00' },
@@ -187,14 +173,13 @@
                 </div>
                 <h3 class="description" id="description${event.id}"></h3>
                 <div class="timer">
-                    <div class="timer-row">
-                        <div class="unit unit-large"><span id="months${event.id}">0</span><div class="label">Meses</div></div>
-                        <div class="unit unit-large"><span id="days${event.id}">0</span><div class="label">Días</div></div>
-                        <div class="unit unit-large"><span id="hours${event.id}">0</span><div class="label">Horas</div></div>
+                    <div class="timer-row" id="mainRow${event.id}">
+                        <div class="unit"><span id="days${event.id}">0</span><div class="label">Días</div></div>
+                        <div class="unit"><span id="hours${event.id}">0</span><div class="label">Horas</div></div>
+                        <div class="unit"><span id="minutes${event.id}">0</span><div class="label">Min</div></div>
                     </div>
-                    <div class="timer-row">
-                        <div class="unit unit-small"><span id="minutes${event.id}">0</span><div class="label">Min</div></div>
-                        <div class="unit unit-small"><span id="seconds${event.id}">0</span><div class="label">Seg</div></div>
+                    <div class="timer-row" id="secondsRow${event.id}" style="display: none;">
+                        <div class="unit"><span id="seconds${event.id}">0</span><div class="label">Seg</div></div>
                     </div>
                 </div>
             `;
@@ -219,50 +204,60 @@
             const descriptionElement = document.getElementById(`description${event.id}`);
             descriptionElement.textContent = formatDateInSpanish(new Date(event.date));
 
-            const monthsElement = document.getElementById(`months${event.id}`).parentNode;
+            const mainRowElement = document.getElementById(`mainRow${event.id}`);
+            const secondsRowElement = document.getElementById(`secondsRow${event.id}`);
             const daysElement = document.getElementById(`days${event.id}`).parentNode;
             const hoursElement = document.getElementById(`hours${event.id}`).parentNode;
             const minutesElement = document.getElementById(`minutes${event.id}`).parentNode;
             const secondsElement = document.getElementById(`seconds${event.id}`).parentNode;
 
+            let eventStarted = false;
+
             function update() {
                 const now = new Date().getTime();
                 const distance = countdownDate - now;
 
+                const days = Math.floor(Math.abs(distance) / (1000 * 60 * 60 * 24));
+                const hours = Math.floor((Math.abs(distance) % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+                const minutes = Math.floor((Math.abs(distance) % (1000 * 60 * 60)) / (1000 * 60));
+                const seconds = Math.floor((Math.abs(distance) % (1000 * 60)) / 1000);
+
                 if (distance <= 0) {
-                    const countdownElement = document.getElementById(`countdown${event.id}`);
-                    countdownElement.classList.add('complete');
-                    descriptionElement.textContent = "¡El evento ha comenzado!";
-                    minutesElement.style.display = 'none';
+                    if (!eventStarted) {
+                        const countdownElement = document.getElementById(`countdown${event.id}`);
+                        countdownElement.classList.add('complete');
+                        descriptionElement.textContent = "¡El evento ha comenzado!";
+                        eventStarted = true;
+                    }
+                    mainRowElement.style.display = 'flex';
+                    secondsRowElement.style.display = 'none';
+                    daysElement.style.display = 'flex';
+                    hoursElement.style.display = 'flex';
+                    minutesElement.style.display = 'flex';
                     secondsElement.style.display = 'none';
-                    return;
-                }
-
-                const months = Math.floor(distance / (1000 * 60 * 60 * 24 * 30));
-                const days = Math.floor((distance % (1000 * 60 * 60 * 24 * 30)) / (1000 * 60 * 60 * 24));
-                const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-                const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
-                const seconds = Math.floor((distance % (1000 * 60)) / 1000);
-
-                if (distance <= 60 * 60 * 1000) {
-                    monthsElement.style.display = 'none';
+                } else if (distance <= 60 * 60 * 1000) {
+                    mainRowElement.style.display = 'flex';
+                    secondsRowElement.style.display = 'none';
                     daysElement.style.display = 'none';
                     hoursElement.style.display = 'none';
                     minutesElement.style.display = 'flex';
                     secondsElement.style.display = 'flex';
+                    mainRowElement.appendChild(secondsElement);
                 } else {
-                    monthsElement.style.display = 'flex';
+                    mainRowElement.style.display = 'flex';
+                    secondsRowElement.style.display = 'none';
                     daysElement.style.display = 'flex';
                     hoursElement.style.display = 'flex';
                     minutesElement.style.display = 'flex';
                     secondsElement.style.display = 'none';
                 }
 
-                document.getElementById(`months${event.id}`).textContent = months;
                 document.getElementById(`days${event.id}`).textContent = days;
                 document.getElementById(`hours${event.id}`).textContent = hours;
                 document.getElementById(`minutes${event.id}`).textContent = minutes;
-                document.getElementById(`seconds${event.id}`).textContent = seconds;
+                if (distance > 0) {
+                    document.getElementById(`seconds${event.id}`).textContent = seconds;
+                }
 
                 setTimeout(update, 1000);
             }
