@@ -65,26 +65,26 @@
     \thispagestyle{fancy}
 }
 
-\newboolean{ShowUsage}
-\setboolean{ShowUsage}{false} 
-\newcommand{\ShowUsage}{\setboolean{ShowUsage}{false}}
-\newcommand{\HideUsage}{\setboolean{ShowUsage}{true}}
+\newboolean{showUsage}
+\setboolean{showUsage}{false}
+\newcommand{\ShowUsage}{\setboolean{showUsage}{false}}
+\newcommand{\HideUsage}{\setboolean{showUsage}{true}}
 
-\newboolean{ShowComplexity}
-\setboolean{ShowComplexity}{false} 
-\newcommand{\ShowComplexity}{\setboolean{ShowComplexity}{false}}
-\newcommand{\HideComplexity}{\setboolean{ShowComplexity}{true}}
+\newboolean{showComplexity}
+\setboolean{showComplexity}{false}
+\newcommand{\ShowComplexity}{\setboolean{showComplexity}{false}}
+\newcommand{\HideComplexity}{\setboolean{showComplexity}{true}}
 
 \newboolean{ShowAuthor}
-\setboolean{ShowAuthor}{false} 
+\setboolean{ShowAuthor}{false}
 \newcommand{\ShowAuthor}{\setboolean{ShowAuthor}{false}}
 \newcommand{\HideAuthor}{\setboolean{ShowAuthor}{true}}
 
 \newcommand{\Algorithm}[6]{
     \subsection{#1}
-    \ifthenelse{\equal{#2}{} \OR \boolean{ShowUsage}}{}{\textbf{Uso:} #2 \\}
+    \ifthenelse{\equal{#2}{} \OR \boolean{showUsage}}{}{\textbf{Uso:} #2 \\}
 
-    \ifthenelse{\equal{#3}{} \OR \boolean{ShowComplexity}}{}{\textbf{Complejidad:} #3 \\}
+    \ifthenelse{\equal{#3}{} \OR \boolean{showComplexity}}{}{\textbf{Complejidad:} #3 \\}
 
     \ifthenelse{\equal{#6}{} \OR \boolean{ShowAuthor}}{}{\textbf{Autor:} #6 \\}
 
